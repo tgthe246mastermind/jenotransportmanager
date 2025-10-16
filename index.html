@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weekly Payments Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Weekly Payments</h1>
+    <div class="actions">
+      <button id="addChildBtn">Add Child</button>
+      <button id="importCsvBtn">Import CSV</button>
+      <button id="exportCsvBtn">Export CSV</button>
+      <button id="sendReceiptsBtn">Send Receipts</button>
+      <button id="settingsBtn" aria-label="Email Settings">Settings</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="controls">
+      <div class="field">
+        <label for="weekInput">Week</label>
+        <input id="weekInput" type="text" placeholder="e.g. 2025-10-13 to 2025-10-17" />
+      </div>
+      <div class="field">
+        <label for="amountInput">Default Amount</label>
+        <input id="amountInput" type="number" min="0" step="0.01" placeholder="e.g. 25.00" />
+      </div>
+      <div class="field grow">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="Search by child or email" />
+      </div>
+    </section>
+
+    <section class="table-wrap">
+      <table class="list">
+        <thead>
+          <tr>
+            <th>Child</th>
+            <th>Parent Email</th>
+            <th>Amount</th>
+            <th>Week</th>
+            <th>Paid</th>
+            <th>Receipt</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <input id="csvFileInput" type="file" accept=".csv" hidden />
+
+  <dialog id="childDialog">
+    <form method="dialog" class="dialog-form" id="childForm">
+      <h3 id="childDialogTitle">Add Child</h3>
+      <div class="field">
+        <label for="childName">Child Name</label>
+        <input id="childName" required />
+      </div>
+      <div class="field">
+        <label for="parentEmail">Parent Email</label>
+        <input id="parentEmail" type="email" required />
+      </div>
+      <div class="field">
+        <label for="childAmount">Amount</label>
+        <input id="childAmount" type="number" min="0" step="0.01" />
+      </div>
+      <div class="field">
+        <label for="childWeek">Week</label>
+        <input id="childWeek" />
+      </div>
+      <menu class="dialog-actions">
+        <button value="cancel">Cancel</button>
+        <button value="submit" class="primary">Save</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="dialog-form" id="settingsForm">
+      <h3>Email Settings (EmailJS)</h3>
+      <div class="field">
+        <label for="emailjsPublicKey">Public Key</label>
+        <input id="emailjsPublicKey" placeholder="e.g. ABC123..." />
+      </div>
+      <div class="field">
+        <label for="emailjsServiceId">Service ID</label>
+        <input id="emailjsServiceId" placeholder="e.g. service_xxx" />
+      </div>
+      <div class="field">
+        <label for="emailjsTemplatePaid">Template ID (Paid)</label>
+        <input id="emailjsTemplatePaid" placeholder="e.g. template_paid" />
+      </div>
+      <div class="field">
+        <label for="emailjsTemplateUnpaid">Template ID (Reminder)</label>
+        <input id="emailjsTemplateUnpaid" placeholder="e.g. template_unpaid" />
+      </div>
+      <p class="hint">Templates should accept: childName, parentEmail, amount, week, datePaid</p>
+      <menu class="dialog-actions">
+        <button value="cancel">Cancel</button>
+        <button value="submit" class="primary">Save</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <footer class="statusbar" id="statusbar" aria-live="polite"></footer>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "dayjs": "https://esm.sh/dayjs",
+      "dayjs/plugin/utc": "https://esm.sh/dayjs/plugin/utc",
+      "dayjs/plugin/timezone": "https://esm.sh/dayjs/plugin/timezone"
+    }
+  }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+
