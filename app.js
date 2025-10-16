@@ -61,7 +61,7 @@ function render() {
       tr.innerHTML = `
         <td>${c.name}</td>
         <td>${c.email}</td>
-        <td>£${fmtAmount(c.amount)}</td>
+        <td>$${fmtAmount(c.amount)}</td>
         <td>${c.week || ""}</td>
         <td>
           <label style="display:flex;gap:8px;align-items:center;">
@@ -258,7 +258,9 @@ function exportCsv() {
   const blob = new Blob([lines.join("\n")], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url; a.download = `weekly_payments_${nowDate()}.csv`; a.click();
+  a.href = url; 
+  a.download = `weekly_payments_${nowDate()}.csv`; 
+  a.click();
   URL.revokeObjectURL(url);
 }
 
@@ -314,4 +316,3 @@ loadInitial();
 bindEvents();
 initEmail();
 render();
-
